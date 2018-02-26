@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:paddingLeft="@dimen/spinner_side_padding"
+    android:paddingRight="@dimen/spinner_side_padding"
+    android:paddingTop="@dimen/spinner_vertical_padding"
+    android:paddingBottom="@dimen/spinner_vertical_padding"
+    android:textColor="@android:color/white"
+    android:textSize="@dimen/spinner_text_size" />
