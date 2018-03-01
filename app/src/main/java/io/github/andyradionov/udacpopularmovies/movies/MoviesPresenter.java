@@ -3,7 +3,7 @@ package io.github.andyradionov.udacpopularmovies.movies;
 import android.util.Log;
 
 import io.github.andyradionov.udacpopularmovies.app.App;
-import io.github.andyradionov.udacpopularmovies.data.MoviesData;
+import io.github.andyradionov.udacpopularmovies.data.network.MoviesData;
 
 /**
  * @author Andrey Radionov

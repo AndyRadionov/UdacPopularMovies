@@ -28,6 +28,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".movies.MoviesActivity" />
         </activity>
+
+        <provider
+            android:authorities="io.github.andyradionov.udacpopularmovies"
+            android:name=".data.db.MoviesContentProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

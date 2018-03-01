@@ -15,7 +15,7 @@ import java.util.List;
 
 import io.github.andyradionov.udacpopularmovies.R;
 import io.github.andyradionov.udacpopularmovies.app.App;
-import io.github.andyradionov.udacpopularmovies.data.Movie;
+import io.github.andyradionov.udacpopularmovies.data.model.Movie;
 
 /**
  * @author Andrey Radionov

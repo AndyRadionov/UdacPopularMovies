@@ -1,4 +1,4 @@
-package io.github.andyradionov.udacpopularmovies.data;
+package io.github.andyradionov.udacpopularmovies.data.network;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import io.github.andyradionov.udacpopularmovies.app.App;
+import io.github.andyradionov.udacpopularmovies.data.model.Movie;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

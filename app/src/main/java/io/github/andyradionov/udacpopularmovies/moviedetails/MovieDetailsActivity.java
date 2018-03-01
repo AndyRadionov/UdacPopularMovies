@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.github.andyradionov.udacpopularmovies.R;
 import io.github.andyradionov.udacpopularmovies.app.App;
-import io.github.andyradionov.udacpopularmovies.data.Movie;
+import io.github.andyradionov.udacpopularmovies.data.model.Movie;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 

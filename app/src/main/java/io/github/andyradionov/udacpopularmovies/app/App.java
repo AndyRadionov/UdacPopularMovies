@@ -10,8 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import io.github.andyradionov.udacpopularmovies.R;
-import io.github.andyradionov.udacpopularmovies.data.MoviesApi;
-import io.github.andyradionov.udacpopularmovies.data.MoviesData;
+import io.github.andyradionov.udacpopularmovies.data.network.MoviesApi;
+import io.github.andyradionov.udacpopularmovies.data.network.MoviesData;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

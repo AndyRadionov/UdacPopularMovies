@@ -1,6 +1,8 @@
-package io.github.andyradionov.udacpopularmovies.data;
+package io.github.andyradionov.udacpopularmovies.data.network;
 
 import java.util.List;
+
+import io.github.andyradionov.udacpopularmovies.data.model.Movie;
 
 /**
  * @author Andrey Radionov

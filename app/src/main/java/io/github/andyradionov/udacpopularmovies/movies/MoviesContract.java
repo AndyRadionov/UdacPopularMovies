@@ -2,7 +2,7 @@ package io.github.andyradionov.udacpopularmovies.movies;
 
 import java.util.List;
 
-import io.github.andyradionov.udacpopularmovies.data.Movie;
+import io.github.andyradionov.udacpopularmovies.data.model.Movie;
 
 /**
  * @author Andrey Radionov

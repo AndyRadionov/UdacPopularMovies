@@ -1,4 +1,4 @@
-package io.github.andyradionov.udacpopularmovies.data;
+package io.github.andyradionov.udacpopularmovies.data.network;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
