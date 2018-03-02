@@ -2,7 +2,6 @@ package io.github.andyradionov.udacpopularmovies.movies;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -15,6 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,10 +27,10 @@ import io.github.andyradionov.udacpopularmovies.app.App;
 import io.github.andyradionov.udacpopularmovies.data.model.Movie;
 import io.github.andyradionov.udacpopularmovies.moviedetails.MovieDetailsActivity;
 
-public class MoviesActivity extends AppCompatActivity implements
+public class MoviesActivity extends MvpAppCompatActivity implements
         AdapterView.OnItemSelectedListener,
         MoviesAdapter.OnItemClickListener,
-        MoviesContract.View {
+        MoviesView {
 
     private static final String TAG = MoviesActivity.class.getSimpleName();
     private static final String SORT_ORDER = "sort_order";
@@ -44,7 +46,8 @@ public class MoviesActivity extends AppCompatActivity implements
     @BindView(R.id.rv_movies_container)
     RecyclerView mMoviesContainer;
 
-    private MoviesContract.Presenter mPresenter;
+    @InjectPresenter
+    MoviesPresenter mPresenter;
     private MoviesAdapter mMoviesAdapter;
     private Unbinder mUnbinder;
     private String[] mSortKeys;
@@ -58,7 +61,6 @@ public class MoviesActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_movies);
 
         mUnbinder = ButterKnife.bind(this);
-        mPresenter = new MoviesPresenter(this);
 
         mSortKeys = getResources().getStringArray(R.array.movies_sort_types_keys);
         mSortOrder = savedInstanceState == null ? 0 : savedInstanceState.getInt(SORT_ORDER);
