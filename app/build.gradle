@@ -44,10 +44,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
-    implementation 'com.pushtorefresh.storio3:content-resolver:3.0.0'
-    implementation 'com.pushtorefresh.storio3:content-resolver-annotations:3.0.0'
-    annotationProcessor 'com.pushtorefresh.storio3:content-resolver-annotations-processor:3.0.0'
-
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 

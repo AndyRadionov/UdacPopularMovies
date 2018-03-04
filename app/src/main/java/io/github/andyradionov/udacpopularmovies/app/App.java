@@ -1,7 +1,6 @@
 package io.github.andyradionov.udacpopularmovies.app;
 
 import android.app.Application;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.util.Log;
@@ -9,15 +8,8 @@ import android.util.Log;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pushtorefresh.storio3.contentresolver.ContentResolverTypeMapping;
-import com.pushtorefresh.storio3.contentresolver.StorIOContentResolver;
-import com.pushtorefresh.storio3.contentresolver.impl.DefaultStorIOContentResolver;
 
 import io.github.andyradionov.udacpopularmovies.R;
-import io.github.andyradionov.udacpopularmovies.data.db.MovieEntity;
-import io.github.andyradionov.udacpopularmovies.data.db.MovieEntityStorIOContentResolverDeleteResolver;
-import io.github.andyradionov.udacpopularmovies.data.db.MovieEntityStorIOContentResolverGetResolver;
-import io.github.andyradionov.udacpopularmovies.data.db.MovieEntityStorIOContentResolverPutResolver;
 import io.github.andyradionov.udacpopularmovies.data.db.MoviesRepository;
 import io.github.andyradionov.udacpopularmovies.data.network.MoviesApi;
 import io.github.andyradionov.udacpopularmovies.data.network.MoviesNetworkData;
@@ -36,11 +28,9 @@ public class App extends Application {
 
     private static final String TAG = App.class.getSimpleName();
 
-    private static Context context;
     private static String sApiKey;
     private static MoviesApi sMoviesApi;
     private static MoviesNetworkData sMoviesNetworkData;
-    private static StorIOContentResolver sStorIOContentResolver;
     private static MoviesRepository sMoviesRepository;
 
 
@@ -49,12 +39,10 @@ public class App extends Application {
         Log.d(TAG, "onCreate");
         super.onCreate();
 
-        App.context = getApplicationContext();
         sApiKey = getString(R.string.api_key);
         sMoviesApi = createApi();
         sMoviesNetworkData = new MoviesNetworkData();
-        sStorIOContentResolver = buildContentResolver();
-        sMoviesRepository = new MoviesRepository(sStorIOContentResolver);
+        sMoviesRepository = new MoviesRepository();
     }
 
     public static String getApiKey() {
@@ -102,17 +90,5 @@ public class App extends Application {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(MoviesApi.class);
-    }
-
-    private static DefaultStorIOContentResolver buildContentResolver() {
-        ContentResolver contentResolver = App.context.getContentResolver();
-        return DefaultStorIOContentResolver.builder()
-                .contentResolver(contentResolver)
-                .addTypeMapping(MovieEntity.class, ContentResolverTypeMapping.<MovieEntity>builder()
-                        .putResolver(new MovieEntityStorIOContentResolverPutResolver())
-                        .getResolver(new MovieEntityStorIOContentResolverGetResolver())
-                        .deleteResolver(new MovieEntityStorIOContentResolverDeleteResolver())
-                        .build())
-                .build();
     }
 }
