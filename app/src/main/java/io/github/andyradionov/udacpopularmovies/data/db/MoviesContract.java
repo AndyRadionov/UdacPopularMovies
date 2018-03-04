@@ -15,6 +15,8 @@ public class MoviesContract {
 
     public static final String PATH_MOVIES = "movies";
 
+    public static final String STRING_CONTENT_URI = "content://" + AUTHORITY + "/movies";
+
     public static final class MovieEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =

@@ -16,15 +16,15 @@ import io.reactivex.schedulers.Schedulers;
  * @author Andrey Radionov
  */
 
-public class MoviesData {
-    private static final String TAG = MoviesData.class.getSimpleName();
+public class MoviesNetworkData {
+    private static final String TAG = MoviesNetworkData.class.getSimpleName();
 
     private MoviesApi mMoviesApi;
     private List<Movie> mCachedMovies;
     private String mCachedSortOrder;
 
-    public MoviesData() {
-        Log.d(TAG, "MoviesData constructor call");
+    public MoviesNetworkData() {
+        Log.d(TAG, "MoviesNetworkData constructor call");
         mMoviesApi = App.getMoviesApi();
         mCachedMovies = Collections.emptyList();
     }

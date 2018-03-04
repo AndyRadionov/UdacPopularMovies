@@ -39,6 +39,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     }
 
     public void setData(List<Movie> movies) {
+        Log.d(TAG, "setData: " + movies);
         this.mMovies = movies;
         notifyDataSetChanged();
     }
@@ -60,6 +61,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, "getItemCount");
         return mMovies.size();
     }
 

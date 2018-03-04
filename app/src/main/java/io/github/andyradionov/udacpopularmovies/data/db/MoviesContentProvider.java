@@ -8,8 +8,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
-import static io.github.andyradionov.udacpopularmovies.data.db.MoviesContract.*;
+import static io.github.andyradionov.udacpopularmovies.data.db.MoviesContract.AUTHORITY;
+import static io.github.andyradionov.udacpopularmovies.data.db.MoviesContract.MovieEntry;
+import static io.github.andyradionov.udacpopularmovies.data.db.MoviesContract.PATH_MOVIES;
 
 /**
  * @author Andrey Radionov
@@ -17,13 +20,15 @@ import static io.github.andyradionov.udacpopularmovies.data.db.MoviesContract.*;
 
 public class MoviesContentProvider extends ContentProvider {
 
+    private static final String TAG = MoviesContentProvider.class.getSimpleName();
+
     public static final int MOVIES = 100;
     public static final int MOVIE_WITH_ID = 101;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
     public static UriMatcher buildUriMatcher() {
-
+        Log.d(TAG, "buildUriMatcher");
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
         uriMatcher.addURI(AUTHORITY, PATH_MOVIES, MOVIES);
@@ -36,13 +41,14 @@ public class MoviesContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
+        Log.d(TAG, "onCreate");
         mMoviesDbHelper = new MoviesDbHelper(getContext());
         return true;
     }
 
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
-
+        Log.d(TAG, "insert: " + values);
         final SQLiteDatabase db = mMoviesDbHelper.getWritableDatabase();
 
         int match = sUriMatcher.match(uri);
@@ -51,7 +57,7 @@ public class MoviesContentProvider extends ContentProvider {
         switch (match) {
             case MOVIES:
                 long id = db.insert(MovieEntry.TABLE_NAME, null, values);
-                if ( id > 0 ) {
+                if (id > 0) {
                     returnUri = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, id);
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -62,7 +68,6 @@ public class MoviesContentProvider extends ContentProvider {
         }
 
         getContext().getContentResolver().notifyChange(uri, null);
-
         return returnUri;
     }
 
@@ -70,7 +75,7 @@ public class MoviesContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-
+        Log.d(TAG, "query");
         final SQLiteDatabase db = mMoviesDbHelper.getReadableDatabase();
 
         int match = sUriMatcher.match(uri);
@@ -78,10 +83,22 @@ public class MoviesContentProvider extends ContentProvider {
 
         switch (match) {
             case MOVIES:
-                retCursor =  db.query(MovieEntry.TABLE_NAME,
+                retCursor = db.query(MovieEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            case MOVIE_WITH_ID:
+                String movieId = uri.getLastPathSegment();
+
+                String[] selectionArguments = new String[]{movieId};
+                retCursor = db.query(MovieEntry.TABLE_NAME,
+                        projection,
+                        MovieEntry._ID + " = ? ",
+                        selectionArguments,
                         null,
                         null,
                         sortOrder);
@@ -97,16 +114,15 @@ public class MoviesContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-
+        Log.d(TAG, "delete");
         final SQLiteDatabase db = mMoviesDbHelper.getWritableDatabase();
 
         int match = sUriMatcher.match(uri);
         int tasksDeleted;
 
         switch (match) {
-            case MOVIE_WITH_ID:
-                String id = uri.getPathSegments().get(1);
-                tasksDeleted = db.delete(MovieEntry.TABLE_NAME, "_id=?", new String[]{id});
+            case MOVIES:
+                tasksDeleted = db.delete(MovieEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

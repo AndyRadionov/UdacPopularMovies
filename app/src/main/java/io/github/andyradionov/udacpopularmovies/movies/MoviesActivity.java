@@ -53,6 +53,7 @@ public class MoviesActivity extends MvpAppCompatActivity implements
     private String[] mSortKeys;
     private int mSortOrder;
     private boolean mIsSpinnerLoaded;
+    private String mFavouriteKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,13 @@ public class MoviesActivity extends MvpAppCompatActivity implements
         mSortKeys = getResources().getStringArray(R.array.movies_sort_types_keys);
         mSortOrder = savedInstanceState == null ? 0 : savedInstanceState.getInt(SORT_ORDER);
 
+        mFavouriteKey = getString(R.string.favourite_key);
         setupRecycler();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         loadMovies();
     }
 
@@ -110,7 +117,11 @@ public class MoviesActivity extends MvpAppCompatActivity implements
             return;
         }
         mSortOrder = position;
-        loadMovies();
+        if (mSortKeys[mSortOrder].equals(mFavouriteKey)) {
+            mPresenter.loadFavouriteMovies();
+        } else {
+            fetchMoviesFromApi();
+        }
     }
 
     @Override
@@ -144,6 +155,15 @@ public class MoviesActivity extends MvpAppCompatActivity implements
         setViewsVisibility(View.GONE, View.GONE, View.VISIBLE);
     }
 
+    private void loadMovies() {
+        Log.d(TAG, "loadMovies");
+        if (mSortKeys[mSortOrder].equals(mFavouriteKey)) {
+            mPresenter.loadFavouriteMovies();
+        } else {
+            fetchMoviesFromApi();
+        }
+    }
+
     private void setupRecycler() {
         Log.d(TAG, "setupRecycler");
         mMoviesAdapter = new MoviesAdapter(this);
@@ -156,13 +176,13 @@ public class MoviesActivity extends MvpAppCompatActivity implements
         mMoviesContainer.setLayoutManager(layoutManager);
     }
 
-    private void loadMovies() {
-        Log.d(TAG, "loadMovies");
+    private void fetchMoviesFromApi() {
+        Log.d(TAG, "fetchMoviesFromApi");
         if (!App.isInternetAvailable(this)) {
             showError();
             return;
         }
-        mPresenter.loadMovies(mSortKeys[mSortOrder]);
+        mPresenter.fetchMoviesFromApi(mSortKeys[mSortOrder]);
     }
 
     private void setViewsVisibility(int progressBar, int recycler, int errorText) {

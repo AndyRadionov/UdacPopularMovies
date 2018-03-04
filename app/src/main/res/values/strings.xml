@@ -6,4 +6,12 @@
     <string name="movies_sort_order">Movies Sort Order</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="rating_icon">Rating icon</string>
+
+    <string name="popular_key" translatable="false">popular</string>
+    <string name="top_rated_key" translatable="false">top_rated</string>
+    <string name="favourite_key" translatable="false">favourite</string>
+
+    <string name="popular_label">Popular</string>
+    <string name="top_rated_label">Top Rated</string>
+    <string name="favourite_label">Favourite</string>
 </resources>

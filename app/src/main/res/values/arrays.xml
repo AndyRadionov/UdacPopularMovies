@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="movies_sort_types_keys">
-        <item>popular</item>
-        <item>top_rated</item>
+        <item>@string/popular_key</item>
+        <item>@string/top_rated_key</item>
+        <item>@string/favourite_key</item>
     </string-array>
 
     <string-array name="movies_sort_types_values">
-        <item>Popular</item>
-        <item>Top Rated</item>
+        <item>@string/popular_label</item>
+        <item>@string/top_rated_label</item>
+        <item>@string/favourite_label</item>
     </string-array>
 </resources>

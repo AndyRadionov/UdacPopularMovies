@@ -5,8 +5,12 @@ import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import java.util.List;
+
 import io.github.andyradionov.udacpopularmovies.app.App;
-import io.github.andyradionov.udacpopularmovies.data.network.MoviesData;
+import io.github.andyradionov.udacpopularmovies.data.db.MoviesRepository;
+import io.github.andyradionov.udacpopularmovies.data.model.Movie;
+import io.github.andyradionov.udacpopularmovies.data.network.MoviesNetworkData;
 
 /**
  * @author Andrey Radionov
@@ -17,28 +21,49 @@ public class MoviesPresenter extends MvpPresenter<MoviesView> {
 
     private static final String TAG = MoviesPresenter.class.getSimpleName();
 
-    private MoviesData mMoviesData = App.getMoviesData();
+    private MoviesNetworkData mMoviesNetworkData = App.getMoviesNetworkData();
+    private MoviesRepository mMoviesRepository = App.getMoviesRepository();
 
-    public void loadMovies(String sortOrder) {
-        Log.d(TAG, "loadMovies with sortOrder: " + sortOrder);
+    public void fetchMoviesFromApi(String sortOrder) {
+        Log.d(TAG, "fetchMoviesFromApi with sortOrder: " + sortOrder);
 
         getViewState().showLoadingIndicator();
 
-        if (mMoviesData.isCached(sortOrder)) {
+        if (mMoviesNetworkData.isCached(sortOrder)) {
             Log.d(TAG, "returns cached movies");
-            getViewState().showMovies(mMoviesData.getMoviesFromCache());
+            getViewState().showMovies(mMoviesNetworkData.getMoviesFromCache());
             return;
         }
 
-        mMoviesData.getMovies(sortOrder)
+        mMoviesNetworkData.getMovies(sortOrder)
                 .doOnError(throwable -> getViewState().showError())
                 .subscribe(movies -> {
                     if (movies.isEmpty()) {
                         getViewState().showError();
                     } else {
-                        mMoviesData.setCache(movies, sortOrder);
+                        mMoviesNetworkData.setCache(movies, sortOrder);
                         getViewState().showMovies(movies);
                     }
                 }, throwable -> getViewState().showError());
+    }
+
+    public void showError() {
+        Log.d(TAG, "showError");
+        getViewState().showError();
+    }
+
+    public void loadFavouriteMovies() {
+        Log.d(TAG, "loadFavouriteMovies");
+        getViewState().showLoadingIndicator();
+        mMoviesRepository.getFavouriteMovies(this);
+    }
+
+    public void showFavouriteMovies(List<Movie> movies) {
+        Log.d(TAG, "showFavouriteMovies: " + movies);
+        if (movies == null || movies.isEmpty()) {
+            getViewState().showError();
+        } else {
+            getViewState().showMovies(movies);
+        }
     }
 }
