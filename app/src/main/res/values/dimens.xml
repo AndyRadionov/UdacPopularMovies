@@ -5,8 +5,8 @@
     <dimen name="spinner_text_size">20sp</dimen>
     <dimen name="spinner_side_padding">20dp</dimen>
     <dimen name="spinner_vertical_padding">8dp</dimen>
-    <dimen name="item_movie_margin">8dp</dimen>
-    <dimen name="item_movie_padding">8dp</dimen>
+    <dimen name="item_margin">8dp</dimen>
+    <dimen name="item_padding">8dp</dimen>
     <dimen name="thumbnail_width">342dp</dimen>
     <dimen name="progress_bar_size">40dp</dimen>
     <dimen name="indicator_top_margin">200dp</dimen>
@@ -15,6 +15,11 @@
     <dimen name="movie_details_padding">8dp</dimen>
     <dimen name="star_icon_size">20dp</dimen>
     <dimen name="overview_top_margin">24dp</dimen>
-    <dimen name="poster_width">342dp</dimen>
-    <dimen name="media_item_width">80dp</dimen>
+    <dimen name="poster_width">200dp</dimen>
+    <dimen name="media_item_width">280dp</dimen>
+    <dimen name="trailer_height">200dp</dimen>
+    <dimen name="play_icon_size">40dp</dimen>
+    <dimen name="play_icon_margin">80dp</dimen>
+    <dimen name="trailer_margin">4dp</dimen>
+    <dimen name="star_icon_margin_left">32dp</dimen>
 </resources>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/movie_details_margin"
     android:orientation="horizontal"
-    tools:ignore="RtlHardcoded"
-    tools:context="io.github.andyradionov.udacpopularmovies.moviedetails.MovieDetailsActivity">
+    tools:context="io.github.andyradionov.udacpopularmovies.moviedetails.MovieDetailsActivity"
+    tools:ignore="RtlHardcoded">
 
     <ImageView
         android:id="@+id/iv_poster"
@@ -16,70 +17,106 @@
         android:contentDescription="@string/movie_poster" />
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:padding="@dimen/movie_details_padding">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/movie_details_padding">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/vertical_guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
             <TextView
-                style="@style/MovieTextStyle"
                 android:id="@+id/tv_date_label"
-                android:layout_alignParentTop="true"
+                style="@style/MovieTextStyle"
                 android:layout_marginRight="@dimen/movie_details_margin"
                 android:text="@string/release_date"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                app:layout_constraintRight_toRightOf="@id/vertical_guide"
+                app:layout_constraintTop_toBottomOf="parent" />
 
             <TextView
-                style="@style/MovieTextStyle"
                 android:id="@+id/tv_release_date"
-                android:layout_alignParentTop="true"
+
+                style="@style/MovieTextStyle"
                 android:layout_marginLeft="@dimen/movie_details_margin"
-                android:layout_toRightOf="@+id/tv_date_label"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                app:layout_constraintLeft_toLeftOf="@id/vertical_guide"
+                app:layout_constraintTop_toBottomOf="parent" />
 
             <TextView
-                style="@style/MovieTextStyle"
-                android:layout_marginLeft="48dp"
+
                 android:id="@+id/tv_vote_label"
-                android:layout_below="@+id/tv_date_label"
+                style="@style/MovieTextStyle"
                 android:layout_marginRight="@dimen/movie_details_margin"
                 android:text="@string/rating"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                app:layout_constraintRight_toRightOf="@id/vertical_guide"
+                app:layout_constraintTop_toBottomOf="@id/tv_date_label" />
 
             <TextView
-                style="@style/MovieTextStyle"
                 android:id="@+id/tv_vote_average"
-                android:layout_below="@+id/tv_release_date"
+                style="@style/MovieTextStyle"
                 android:layout_marginLeft="@dimen/movie_details_margin"
-                android:layout_toRightOf="@+id/tv_vote_label"
                 android:textAlignment="center"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/vertical_guide"
+                app:layout_constraintTop_toBottomOf="@id/tv_date_label" />
 
             <ImageView
                 android:layout_width="@dimen/star_icon_size"
                 android:layout_height="@dimen/star_icon_size"
-                android:layout_below="@+id/tv_release_date"
-                android:layout_marginLeft="@dimen/movie_details_margin"
+                android:layout_marginLeft="@dimen/star_icon_margin_left"
                 android:layout_marginTop="@dimen/movie_details_margin"
-                android:layout_toRightOf="@+id/tv_vote_average"
+                android:contentDescription="@string/rating_icon"
                 android:src="@drawable/ic_star_black_24dp"
                 android:textColor="@android:color/black"
-                android:contentDescription="@string/rating_icon" />
+                app:layout_constraintLeft_toLeftOf="@id/tv_vote_average"
+                app:layout_constraintTop_toBottomOf="@id/tv_date_label" />
 
             <com.uncopt.android.widget.text.justify.JustifiedTextView
                 android:id="@+id/tv_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_vote_average"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/overview_top_margin"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/overview_text_size" />
-        </RelativeLayout>
+                android:textSize="@dimen/overview_text_size"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_vote_label" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_trailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_details_margin"
+                android:background="@drawable/media_items_background"
+                android:padding="@dimen/movie_details_padding"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_overview" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/movie_details_margin"
+                android:background="@drawable/media_items_background"
+                android:padding="@dimen/movie_details_padding"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_trailers" />
+        </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
 </LinearLayout>

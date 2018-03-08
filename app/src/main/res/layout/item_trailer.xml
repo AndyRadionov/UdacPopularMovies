@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/item_padding">
 
     <ImageView
         android:id="@+id/iv_trailer_thumbnail"
         android:layout_width="@dimen/media_item_width"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/trailer_height"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/trailer" />
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="@dimen/play_icon_size"
+        android:layout_height="@dimen/play_icon_size"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/play_icon_margin"
         android:contentDescription="@string/trailer"
-        android:src="@drawable/ic_play_circle_filled_black_24dp" />
+        android:src="@drawable/ic_play_circle_24dp" />
 
     <TextView
         android:id="@+id/tv_trailer_text"
         android:layout_width="@dimen/media_item_width"
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_trailer_thumbnail"
-        android:layout_marginTop="4dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/trailer_margin"
+        android:textAlignment="center" />
 </RelativeLayout>

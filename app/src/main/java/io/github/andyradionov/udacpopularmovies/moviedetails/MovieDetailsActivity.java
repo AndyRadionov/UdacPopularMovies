@@ -28,7 +28,9 @@ import io.github.andyradionov.udacpopularmovies.data.model.MovieReview;
 import io.github.andyradionov.udacpopularmovies.data.model.MovieYoutubeTrailer;
 
 public class MovieDetailsActivity extends MvpAppCompatActivity implements
-        MovieDetailsView, MovieTrailersAdapter.OnItemClickListener {
+        MovieDetailsView,
+        MovieTrailersAdapter.OnItemClickListener,
+        MovieReviewsAdapter.OnItemClickListener {
 
     public static final String MOVIE_EXTRA = "movie_extra";
     private static final String MOVIE_TRAILERS_EXTRA = "movie_trailers_extra";
@@ -129,7 +131,7 @@ public class MovieDetailsActivity extends MvpAppCompatActivity implements
     }
 
     @Override
-    public void onMovieItemClick(String trailerSource) {
+    public void onTrailerItemClick(String trailerSource) {
         Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailerSource));
         Intent webIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse(String.format(App.TRAILER_BASE_URL, trailerSource)));
@@ -141,11 +143,17 @@ public class MovieDetailsActivity extends MvpAppCompatActivity implements
     }
 
     @Override
+    public void onReviewItemClick(String reviewUrl) {
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(reviewUrl));
+        this.startActivity(webIntent);
+    }
+
+    @Override
     public void showReviews(MovieReview[] reviews) {
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mReviewsContainer.setLayoutManager(layoutManager);
-        MovieReviewsAdapter reviewsAdapter = new MovieReviewsAdapter(reviews);
+        MovieReviewsAdapter reviewsAdapter = new MovieReviewsAdapter(reviews, this);
         mReviewsContainer.setAdapter(reviewsAdapter);
     }
 

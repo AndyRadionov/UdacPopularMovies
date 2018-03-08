@@ -26,7 +26,7 @@ public class App extends Application {
     public static final String SMALL_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w342";
     public static final String BIG_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500";
     public static final String TRAILER_BASE_URL = "https://www.youtube.com/watch?v=%s";
-    public static final String TRAILER_THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/%s/default.jpg";
+    public static final String TRAILER_THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/%s/0.jpg";
 
     private static final String TAG = App.class.getSimpleName();
 

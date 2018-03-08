@@ -27,7 +27,7 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
     private OnItemClickListener mClickListener;
 
     public interface OnItemClickListener {
-        void onMovieItemClick(String trailerSource);
+        void onTrailerItemClick(String trailerSource);
     }
 
     public MovieTrailersAdapter(MovieYoutubeTrailer[] trailers, OnItemClickListener clickListener) {
@@ -87,7 +87,7 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
         public void onClick(View v) {
             Log.d(TAG, "onClick Trailer");
             MovieYoutubeTrailer trailer = mTrailers[getAdapterPosition()];
-            mClickListener.onMovieItemClick(trailer.getSource());
+            mClickListener.onTrailerItemClick(trailer.getSource());
         }
     }
 }

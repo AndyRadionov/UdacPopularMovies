@@ -20,10 +20,16 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
     private static final String TAG = MovieReviewsAdapter.class.getSimpleName();
 
     private MovieReview[] mReviews;
+    private OnItemClickListener mClickListener;
 
-    public MovieReviewsAdapter(MovieReview[] mReviews) {
+    public interface OnItemClickListener {
+        void onReviewItemClick(String reviewUrl);
+    }
+
+    public MovieReviewsAdapter(MovieReview[] reviews, OnItemClickListener clickListener) {
         Log.d(TAG, "MovieReviewsAdapter constructor call");
-        this.mReviews = mReviews;
+        mReviews = reviews;
+        mClickListener = clickListener;
     }
 
     @NonNull
@@ -46,13 +52,16 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
         return mReviews.length;
     }
 
-    public class ReviewViewHolder extends RecyclerView.ViewHolder {
+    public class ReviewViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+
         private View reviewView;
 
         ReviewViewHolder(View itemView) {
             super(itemView);
             Log.d(TAG, "ReviewViewHolder constructor call");
             reviewView = itemView;
+            itemView.setOnClickListener(this);
         }
 
         void bind(int position) {
@@ -64,6 +73,13 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewsAdapte
             TextView reviewContent = reviewView.findViewById(R.id.tv_review_content);
             reviewAuthor.setText(review.getAuthor());
             reviewContent.setText(review.getContent());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, "onClick Trailer");
+            MovieReview review = mReviews[getAdapterPosition()];
+            mClickListener.onReviewItemClick(review.getUrl());
         }
     }
 }
