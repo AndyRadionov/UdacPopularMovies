@@ -32,6 +32,7 @@ public class MoviesActivity extends MvpAppCompatActivity implements
         MoviesAdapter.OnItemClickListener,
         MoviesView {
 
+    public static final int ID_FAVOURITE_MOVIES_LOADER = 42;
     private static final String TAG = MoviesActivity.class.getSimpleName();
     private static final String SORT_ORDER = "sort_order";
     private static final int PORTRAIT_COLUMNS = 2;
@@ -117,11 +118,7 @@ public class MoviesActivity extends MvpAppCompatActivity implements
             return;
         }
         mSortOrder = position;
-        if (mSortKeys[mSortOrder].equals(mFavouriteKey)) {
-            mPresenter.loadFavouriteMovies();
-        } else {
-            fetchMoviesFromApi();
-        }
+        loadMovies();
     }
 
     @Override
@@ -157,8 +154,9 @@ public class MoviesActivity extends MvpAppCompatActivity implements
 
     private void loadMovies() {
         Log.d(TAG, "loadMovies");
+        getSupportLoaderManager().destroyLoader(ID_FAVOURITE_MOVIES_LOADER);
         if (mSortKeys[mSortOrder].equals(mFavouriteKey)) {
-            mPresenter.loadFavouriteMovies();
+            getSupportLoaderManager().initLoader(ID_FAVOURITE_MOVIES_LOADER, null, mPresenter);
         } else {
             fetchMoviesFromApi();
         }

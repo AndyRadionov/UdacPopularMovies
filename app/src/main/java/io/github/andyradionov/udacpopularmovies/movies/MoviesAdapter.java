@@ -78,7 +78,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
 
         void bind(int position) {
-            Log.d("ArticleViewHolder", "bind");
+            Log.d("MovieViewHolder", "bind");
 
             Movie movie = mMovies.get(position);
 

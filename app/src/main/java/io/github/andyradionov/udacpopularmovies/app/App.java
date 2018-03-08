@@ -25,6 +25,8 @@ public class App extends Application {
     public static final String MOVIES_BASE_URL = "https://api.themoviedb.org/3/movie/";
     public static final String SMALL_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w342";
     public static final String BIG_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500";
+    public static final String TRAILER_BASE_URL = "https://www.youtube.com/watch?v=%s";
+    public static final String TRAILER_THUMBNAIL_BASE_URL = "https://img.youtube.com/vi/%s/default.jpg";
 
     private static final String TAG = App.class.getSimpleName();
 
@@ -32,7 +34,7 @@ public class App extends Application {
     private static MoviesApi sMoviesApi;
     private static MoviesNetworkData sMoviesNetworkData;
     private static MoviesRepository sMoviesRepository;
-
+    private static Context sContext;
 
     @Override
     public void onCreate() {
@@ -42,7 +44,8 @@ public class App extends Application {
         sApiKey = getString(R.string.api_key);
         sMoviesApi = createApi();
         sMoviesNetworkData = new MoviesNetworkData();
-        sMoviesRepository = new MoviesRepository();
+        sMoviesRepository = new MoviesRepository(getApplicationContext());
+        sContext = getApplicationContext();
     }
 
     public static String getApiKey() {
@@ -59,6 +62,10 @@ public class App extends Application {
 
     public static MoviesRepository getMoviesRepository() {
         return sMoviesRepository;
+    }
+
+    public static Context getAppContext() {
+        return sContext;
     }
 
     /**

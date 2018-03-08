@@ -83,6 +83,20 @@
             android:textAlignment="textStart"
             android:textColor="@android:color/black"
             android:textSize="@dimen/overview_text_size" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trailers"
+            android:layout_below="@+id/tv_overview"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_reviews"
+            android:layout_below="@+id/rv_trailers"
+            android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 </ScrollView>
 
