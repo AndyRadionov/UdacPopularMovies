@@ -28,6 +28,7 @@ public class MoviesNetworkData {
     private long mCachedReviewsMovieId;
     private MovieYoutubeTrailer[] mCachedTrailers;
     private MovieReview[] mCachedReviews;
+    private int currentPage;
 
     public MoviesNetworkData() {
         Log.d(TAG, "MoviesNetworkData constructor call");
@@ -35,16 +36,18 @@ public class MoviesNetworkData {
         mCachedMovies = Collections.emptyList();
     }
 
-    public Observable<List<Movie>> getMovies(String sortOrder) {
+    public Observable<List<Movie>> getMovies(String sortOrder, int page) {
         Log.d(TAG, "getMovies sorted by: " + sortOrder);
-        return mMoviesApi.getMovies(sortOrder, App.getApiKey())
+        currentPage = page;
+        return mMoviesApi.getMovies(sortOrder, App.getApiKey(), page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(GetMoviesDto::getResults);
     }
 
-    public boolean isCached(String sortOrder) {
-        return !TextUtils.isEmpty(mCachedSortOrder)
+    public boolean isCached(String sortOrder, int page) {
+        return currentPage == page
+                && !TextUtils.isEmpty(mCachedSortOrder)
                 && mCachedSortOrder.equals(sortOrder)
                 && mCachedMovies != null
                 && !mCachedMovies.isEmpty();

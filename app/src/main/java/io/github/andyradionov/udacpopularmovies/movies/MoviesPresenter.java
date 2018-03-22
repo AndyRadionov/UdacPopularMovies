@@ -33,18 +33,18 @@ public class MoviesPresenter extends MvpPresenter<MoviesView>
 
     private MoviesNetworkData mMoviesNetworkData = App.getMoviesNetworkData();
 
-    public void fetchMoviesFromApi(String sortOrder) {
+    public void fetchMoviesFromApi(String sortOrder, int page) {
         Log.d(TAG, "fetchMoviesFromApi with sortOrder: " + sortOrder);
 
         getViewState().showLoadingIndicator();
 
-        if (mMoviesNetworkData.isCached(sortOrder)) {
+        if (mMoviesNetworkData.isCached(sortOrder, page)) {
             Log.d(TAG, "returns cached movies");
             getViewState().showMovies(mMoviesNetworkData.getMoviesFromCache());
             return;
         }
 
-        mMoviesNetworkData.getMovies(sortOrder)
+        mMoviesNetworkData.getMovies(sortOrder, page)
                 .doOnError(throwable -> getViewState().showError())
                 .subscribe(movies -> {
                     if (movies.isEmpty()) {

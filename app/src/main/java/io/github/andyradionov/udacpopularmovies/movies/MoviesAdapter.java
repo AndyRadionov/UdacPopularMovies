@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,13 +35,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public MoviesAdapter(OnItemClickListener clickListener) {
         Log.d(TAG, "MoviesAdapter constructor call");
 
-        mMovies = Collections.emptyList();
+        mMovies = new ArrayList<>();
         mClickListener = clickListener;
     }
 
-    public void setData(List<Movie> movies) {
-        Log.d(TAG, "setData: " + movies);
-        this.mMovies = movies;
+    public void clearData() {
+        Log.d(TAG, "clearData");
+        this.mMovies.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addData(List<Movie> movies) {
+        Log.d(TAG, "addData: " + movies);
+        this.mMovies.addAll(movies);
         notifyDataSetChanged();
     }
 

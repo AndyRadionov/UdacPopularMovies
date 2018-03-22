@@ -37,6 +37,7 @@ public class MoviesActivity extends MvpAppCompatActivity implements
     private static final String SORT_ORDER = "sort_order";
     private static final int PORTRAIT_COLUMNS = 2;
     private static final int LANDSCAPE_COLUMNS = 3;
+    private static final int START_PAGE = 1;
 
     @BindView(R.id.pb_loading_indicator)
     ProgressBar mLoadingIndicator;
@@ -50,11 +51,13 @@ public class MoviesActivity extends MvpAppCompatActivity implements
     @InjectPresenter
     MoviesPresenter mPresenter;
     private MoviesAdapter mMoviesAdapter;
+    private EndlessScrollListener mScrollListener;
     private Unbinder mUnbinder;
     private String[] mSortKeys;
     private int mSortOrder;
     private boolean mIsSpinnerLoaded;
     private String mFavouriteKey;
+    private int currentPage = START_PAGE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +77,7 @@ public class MoviesActivity extends MvpAppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        loadMovies();
+        loadMovies(currentPage);
     }
 
     @Override
@@ -109,7 +112,6 @@ public class MoviesActivity extends MvpAppCompatActivity implements
         return true;
     }
 
-
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
         Log.d(TAG, "onItemSelected position: " + position);
@@ -118,7 +120,8 @@ public class MoviesActivity extends MvpAppCompatActivity implements
             return;
         }
         mSortOrder = position;
-        loadMovies();
+        mMoviesAdapter.clearData();
+        loadMovies(currentPage);
     }
 
     @Override
@@ -142,7 +145,7 @@ public class MoviesActivity extends MvpAppCompatActivity implements
     @Override
     public void showMovies(List<Movie> movies) {
         Log.d(TAG, "showMovies");
-        mMoviesAdapter.setData(movies);
+        mMoviesAdapter.addData(movies);
         setViewsVisibility(View.GONE, View.VISIBLE, View.GONE);
     }
 
@@ -152,13 +155,15 @@ public class MoviesActivity extends MvpAppCompatActivity implements
         setViewsVisibility(View.GONE, View.GONE, View.VISIBLE);
     }
 
-    private void loadMovies() {
+    private void loadMovies(int page) {
         Log.d(TAG, "loadMovies");
         getSupportLoaderManager().destroyLoader(ID_FAVOURITE_MOVIES_LOADER);
         if (mSortKeys[mSortOrder].equals(mFavouriteKey)) {
             getSupportLoaderManager().initLoader(ID_FAVOURITE_MOVIES_LOADER, null, mPresenter);
+            mScrollListener.setNeedLoad(false);
         } else {
-            fetchMoviesFromApi();
+            mScrollListener.setNeedLoad(true);
+            fetchMoviesFromApi(page);
         }
     }
 
@@ -172,15 +177,25 @@ public class MoviesActivity extends MvpAppCompatActivity implements
         StaggeredGridLayoutManager layoutManager =
                 new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
         mMoviesContainer.setLayoutManager(layoutManager);
+        mScrollListener = new EndlessScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                currentPage = page;
+                loadMovies(page);
+            }
+        };
+        mMoviesContainer.addOnScrollListener(mScrollListener);
     }
 
-    private void fetchMoviesFromApi() {
+    private void fetchMoviesFromApi(int page) {
         Log.d(TAG, "fetchMoviesFromApi");
         if (!App.isInternetAvailable(this)) {
             showError();
             return;
         }
-        mPresenter.fetchMoviesFromApi(mSortKeys[mSortOrder]);
+        mPresenter.fetchMoviesFromApi(mSortKeys[mSortOrder], page);
     }
 
     private void setViewsVisibility(int progressBar, int recycler, int errorText) {

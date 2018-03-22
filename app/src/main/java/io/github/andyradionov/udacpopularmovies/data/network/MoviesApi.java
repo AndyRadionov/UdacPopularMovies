@@ -13,7 +13,8 @@ public interface MoviesApi {
 
     @GET("{sort_order}")
     Observable<GetMoviesDto> getMovies(@Path("sort_order") String sortOrder,
-                                       @Query("api_key") String apiKey);
+                                       @Query("api_key") String apiKey,
+                                       @Query("page") int page);
 
     @GET("{movie_id}/trailers")
     Observable<GetTrailersDto> getMovieTrailers(@Path("movie_id") long movieId,
